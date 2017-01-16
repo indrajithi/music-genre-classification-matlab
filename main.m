@@ -2,8 +2,15 @@
 %Indrajith Indraprasthaam
 %Mon Jan 16 06:25:39 IST 2017
 
-%Platform and version
+
+
 clear;clc;
+
+%flags
+showPlots = 0
+
+
+%Platform and version
 fprintf('\n-------------WELCOME TO MUSIC GENRE CLASSIFICATION-------------\n\n');
 
 fprintf('Platform: %s\n', computer);
@@ -38,8 +45,9 @@ else
     load ds.mat
 end
 
+if showPlots
 
-fprintf('\nvisualization\npress any key to continue..\n');
+fprintf('\nvisualization\npress any key to continue..\n\nsize of each class:');
 pause;
 
 
@@ -53,13 +61,15 @@ pause;
 
 %We can plot the range of features of the dataset:
 figure; dsRangePlot(ds);
-fprintf('\npress any key to continue..\n');
+fprintf('\nrange of features of the dataset:\npress any key to continue..\n');
 pause;
 
 %We can plot the feature vectors within each class:
 figure; dsFeaVecPlot(ds); figEnlarge;
-fprintf('\npress any key to continue..\n');
+fprintf('\nfeature vectors within each class:\npress any key to continue..\n');
 pause;
+end
+
 
 fprintf('\nDimensionality reduction\npress any key to continue..\n');
 pause;
@@ -71,6 +81,8 @@ dim=size(ds.input, 1)
 [input2, eigVec, eigValue]=pca(ds.input);
 cumVar=cumsum(eigValue);
 cumVarPercent=cumVar/cumVar(end)*100;
+
+if showPlots
 figure; plot(cumVarPercent, '.-');
 xlabel('No. of eigenvalues');
 ylabel('Cumulated variance percentage (%)');
@@ -79,6 +91,7 @@ title('Variance percentage vs. no. of eigenvalues');
 fprintf('Reduce the Dimension\n press any key\n\n');
 pause;
 
+end
 
 cumVarTh=95;
 index=find(cumVarPercent>cumVarTh);
@@ -94,29 +107,61 @@ pause;
 fprintf('project the original dataset into 2-D space.\nThis can be achieved by LDA (linear discriminant analysis):');
 ds2d=lda(ds);
 ds2d.input=ds2d.input(1:2, :);
+
+if showPlots
 figure; dsScatterPlot(ds2d); xlabel('Input 1'); ylabel('Input 2');
 title('Features projected on the first 2 lda vectors');
+end
 
+%...........................
 %classification
 fprintf('\n\n\nKNN classification\npress any key to continue..\n');
 pause;
 
-sumr=0;
-sumk=0;
+%..............................
+fprintf('knn using 10 feature vectors');
 
-for i=1:10
-    [md, rloss, kloss] = myKnn(ds, i);
+sumr=0;sumk=0;
+for i=1:5
+    [md, rloss, kloss] = myKnn(ds2, i);
     sumr = sumr + rloss;
     sumk = sumk + kloss;
 end
 
-fprintf('\naverage resubstitution loss = %g %%\n',sumr*100/10);
-fprintf('\naverage cross-validation loss loss = %g %%\n',sumk*100/10);
+fprintf('\naverage resubstitution loss = %g %%\n',sumr*100/5);
+fprintf('\naverage cross-validation loss loss = %g %%\n',sumk*100/5);
 
+%................................
+fprintf('knn using 156  feature vectors');
 
+sumr=0;sumk=0;
+for i=1:5
+    [md, rloss, kloss] = myKnn(ds, i);
+    sumr = sumr + rloss;
+    sumk = sumk + kloss;
+end
+md
+fprintf('\naverage resubstitution loss = %g %%\n',sumr*100/5);
+fprintf('\naverage cross-validation loss loss = %g %%\n',sumk*100/5);
+
+%.................................
+fprintf('knn using 2  feature vectors: LDA (linear discriminant analysis)');
+
+sumr=0;sumk=0;
+for i=1:5
+    [md, rloss, kloss] = myKnn(ds, i);
+    sumr = sumr + rloss;
+    sumk = sumk + kloss;
+end
+md
+fprintf('\naverage resubstitution loss = %g %%\n',sumr*100/5);
+fprintf('\naverage cross-validation loss loss = %g %%\n',sumk*100/5);
+
+%.................................
 fprintf('\nProgram finished executing \n\npress any key to continue..\n');
 pause;
 fprintf('----------END------------\n')
+toc(scriptStartTime)
 
 
 
