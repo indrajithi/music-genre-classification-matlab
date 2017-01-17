@@ -6,4 +6,5 @@
 ..* KNN
 
 ##TO do
-*SVM
+* SVM
+* Logistic regression
