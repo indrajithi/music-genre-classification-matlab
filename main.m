@@ -7,7 +7,7 @@
 clear;clc;
 
 %flags
-showPlots = 0
+showPlots = 1
 
 
 %Platform and version
