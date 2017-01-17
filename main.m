@@ -161,6 +161,29 @@ fprintf('\naverage cross-validation loss loss = %g %%\n',sumk*100/5);
 fprintf('\nProgram finished executing \n\npress any key to continue..\n');
 pause;
 fprintf('----------END------------\n')
+
+
+%svm 
+
+for i=1:length(computedClass)
+    computed(i)=computedClass{i};
+end
+desired=ds.output;
+confMat = confMatGet(desired, computed);
+cmOpt=confMatPlot('defaultOpt');
+cmOpt.className=ds.outputName;
+confMatPlot(confMat, cmOpt); figEnlarge;
+
+myTic=tic;
+mgcOpt=mgcOptSet;
+if mgcOpt.useInputNormalize, ds.input=inputNormalize(ds.input); end     % Input normalization
+cvPrm=crossValidate('defaultOpt');
+cvPrm.foldNum=mgcOpt.foldNum;
+cvPrm.classifier=mgcOpt.classifier;
+plotOpt=1;
+figure; [tRrMean, vRrMean, tRr, vRr, computedClass]=crossValidate(ds, cvPrm, plotOpt); figEnlarge;
+fprintf('Time for cross-validation = %g sec\n', toc(myTic));
+
 toc(scriptStartTime)
 
 
