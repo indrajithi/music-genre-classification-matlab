@@ -4,15 +4,16 @@
 
 
 
-clear;clc;
+%clear;
+clc;
 
 %flags
 showPlots = 0
 
 
 %Platform and version
-fprintf('\n-------------WELCOME TO MUSIC GENRE CLASSIFICATION-------------\n\n');
-
+fprintf('\n-------------WELCOME TO MUSIC GENRE CLASSIFICATION\nworking-------------\n\n');
+fprintf('\nworking\n');
 fprintf('Platform: %s\n', computer);
 fprintf('MATLAB version: %s\n', version);
 scriptStartTime=tic;
@@ -22,7 +23,7 @@ pause;
 %woring directory
 cd '/media/l1f3/Atharva/installed/matlab/proj/genres/src'
 
-%collect the dataset 1000 songs 
+%collect the dataset 1000 songs
 
 auDir='/media/l1f3/Atharva/installed/matlab/proj/genres'
 opt=mmDataCollect('defaultOpt');
@@ -119,6 +120,8 @@ fprintf('\n\n\nKNN classification\npress any key to continue..\n');
 pause;
 
 %..............................
+KNN = 0
+if KNN
 fprintf('knn using 10 feature vectors');
 
 sumr=0;sumk=0;
@@ -157,13 +160,15 @@ md
 fprintf('\naverage resubstitution loss = %g %%\n',sumr*100/5);
 fprintf('\naverage cross-validation loss loss = %g %%\n',sumk*100/5);
 
+end
+
 %.................................
-fprintf('\nProgram finished executing \n\npress any key to continue..\n');
+%fprintf('\nProgram finished executing \n\npress any key to continue..\n');
 pause;
-fprintf('----------END------------\n')
+%fprintf('----------END------------\n')
 
 
-%svm 
+%svm
 
 for i=1:length(computedClass)
     computed(i)=computedClass{i};
@@ -185,10 +190,3 @@ figure; [tRrMean, vRrMean, tRr, vRr, computedClass]=crossValidate(ds, cvPrm, plo
 fprintf('Time for cross-validation = %g sec\n', toc(myTic));
 
 toc(scriptStartTime)
-
-
-
-
-
-
-
