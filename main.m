@@ -4,16 +4,14 @@
 
 
 
-%clear;
-clc;
+clear;clc;
 
 %flags
 showPlots = 0
 
-
 %Platform and version
-fprintf('\n-------------WELCOME TO MUSIC GENRE CLASSIFICATION\nworking-------------\n\n');
-fprintf('\nworking\n');
+fprintf('\n-------------WELCOME TO MUSIC GENRE CLASSIFICATION-------------\n\n');
+
 fprintf('Platform: %s\n', computer);
 fprintf('MATLAB version: %s\n', version);
 scriptStartTime=tic;
@@ -116,12 +114,13 @@ end
 
 %...........................
 %classification
+KNN = 0;
+
+if KNN
 fprintf('\n\n\nKNN classification\npress any key to continue..\n');
 pause;
 
 %..............................
-KNN = 0
-if KNN
 fprintf('knn using 10 feature vectors');
 
 sumr=0;sumk=0;
@@ -159,29 +158,13 @@ end
 md
 fprintf('\naverage resubstitution loss = %g %%\n',sumr*100/5);
 fprintf('\naverage cross-validation loss loss = %g %%\n',sumk*100/5);
-
 end
 
-%.................................
-%fprintf('\nProgram finished executing \n\npress any key to continue..\n');
-pause;
-%fprintf('----------END------------\n')
 
-
-%svm
-
-for i=1:length(computedClass)
-    computed(i)=computedClass{i};
-end
-desired=ds.output;
-confMat = confMatGet(desired, computed);
-cmOpt=confMatPlot('defaultOpt');
-cmOpt.className=ds.outputName;
-confMatPlot(confMat, cmOpt); figEnlarge;
-
+%svm  classifier
 myTic=tic;
 mgcOpt=mgcOptSet;
-if mgcOpt.useInputNormalize, ds.input=inputNormalize(ds.input); end     % Input normalization
+if mgcOpt.useInputNormalize, ds.input=inputNormalize(ds.input);	end		% Input normalization
 cvPrm=crossValidate('defaultOpt');
 cvPrm.foldNum=mgcOpt.foldNum;
 cvPrm.classifier=mgcOpt.classifier;
@@ -189,4 +172,18 @@ plotOpt=1;
 figure; [tRrMean, vRrMean, tRr, vRr, computedClass]=crossValidate(ds, cvPrm, plotOpt); figEnlarge;
 fprintf('Time for cross-validation = %g sec\n', toc(myTic));
 
+%confusion matrix
+for i=1:length(computedClass)
+	computed(i)=computedClass{i};
+end
+desired=ds.output;
+confMat = confMatGet(desired, computed);
+cmOpt=confMatPlot('defaultOpt');
+cmOpt.className=ds.outputName;
+confMatPlot(confMat, cmOpt); figEnlarge;
+
+%.................................
+fprintf('\nProgram finished executing \n\npress any key to continue..\n');
+pause;
+fprintf('----------END------------\n')
 toc(scriptStartTime)
