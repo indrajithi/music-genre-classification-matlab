@@ -10,6 +10,8 @@ clear;clc;
 showPlots = 0
 
 
+
+
 %Platform and version
 fprintf('\n-------------WELCOME TO MUSIC GENRE CLASSIFICATION-------------\n\n');
 
@@ -22,7 +24,7 @@ pause;
 %woring directory
 cd '/media/l1f3/Atharva/installed/matlab/proj/genres/src'
 
-%collect the dataset 1000 songs 
+%collect the dataset 1000 songs
 
 auDir='/media/l1f3/Atharva/installed/matlab/proj/genres'
 opt=mmDataCollect('defaultOpt');
@@ -162,10 +164,3 @@ fprintf('\nProgram finished executing \n\npress any key to continue..\n');
 pause;
 fprintf('----------END------------\n')
 toc(scriptStartTime)
-
-
-
-
-
-
-
