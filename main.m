@@ -4,7 +4,8 @@
 
 
 
-clear;clc;
+%clear;
+clc;
 
 %flags
 showPlots = 0
@@ -160,8 +161,9 @@ fprintf('\naverage resubstitution loss = %g %%\n',sumr*100/5);
 fprintf('\naverage cross-validation loss loss = %g %%\n',sumk*100/5);
 end
 
-
+SVM = 0;
 %svm  classifier
+if SVM
 myTic=tic;
 mgcOpt=mgcOptSet;
 if mgcOpt.useInputNormalize, ds.input=inputNormalize(ds.input);	end		% Input normalization
@@ -171,7 +173,9 @@ cvPrm.classifier=mgcOpt.classifier;
 plotOpt=1;
 figure; [tRrMean, vRrMean, tRr, vRr, computedClass]=crossValidate(ds, cvPrm, plotOpt); figEnlarge;
 fprintf('Time for cross-validation = %g sec\n', toc(myTic));
-
+else
+  load computedClass.mat
+end
 %confusion matrix
 for i=1:length(computedClass)
 	computed(i)=computedClass{i};
