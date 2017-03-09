@@ -4,7 +4,11 @@
 
 %% Setup the parameters
  
-load('train.mat');
+clear;clc;
+%load('train.mat');
+load ds
+x=ds.input';
+y=ds.output';
 
 m=size(x,1);
 num_labels = 10; 
@@ -13,7 +17,7 @@ fprintf('\nTraining One-vs-All Logistic Regression...\n')
 
 dim=size(x, 1)
 
-[input2, eigVec, eigValue]=pca(x);
+[input2, eigVec, eigValue]=pca(x');
 cumVar=cumsum(eigValue);
 cumVarPercent=cumVar/cumVar(end)*100;
 
@@ -26,8 +30,8 @@ title('Variance percentage vs. no. of eigenvalues');
 cumVarTh=98;
 index=find(cumVarPercent>cumVarTh);
 newDim=index(1);
-x2=input2(1:newDim, :);
-x2 = x2'
+x2=input2(1:newDim, :)';
+
 
 lambda = 0.1;
 [all_theta] = oneVsAll(x2, y, num_labels, lambda);
