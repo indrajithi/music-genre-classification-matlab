@@ -29,6 +29,7 @@ for i=1:length(allAudio)
  [speech,fs] = audioread(dirinfo(i).name);
  [ MFCCs, FBEs, frames ] =  mymfcc( speech, fs, Tw, Ts, alpha, hamming, R, M, C, L );
  mm = MFCCs;
+ mm(~isfinite(mm))=0;
  
  %Reducing Feature Dimeansion
  mf = mean(mm,2); %row mean

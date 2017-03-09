@@ -5,10 +5,10 @@
 %% Setup the parameters
  
 clear;clc;
-%load('train.mat');
-load ds
-x=ds.input';
-y=ds.output';
+load('mgcTrain.mat');
+showPlots =0;
+isPca =0
+isTest =1;
 
 m=size(x,1);
 num_labels = 10; 
@@ -17,6 +17,7 @@ fprintf('\nTraining One-vs-All Logistic Regression...\n')
 
 dim=size(x, 1)
 
+if isPca
 [input2, eigVec, eigValue]=pca(x');
 cumVar=cumsum(eigValue);
 cumVarPercent=cumVar/cumVar(end)*100;
@@ -27,15 +28,27 @@ ylabel('Cumulated variance percentage (%)');
 title('Variance percentage vs. no. of eigenvalues');
 
 
-cumVarTh=98;
+cumVarTh=95;
 index=find(cumVarPercent>cumVarTh);
 newDim=index(1);
 x2=input2(1:newDim, :)';
-
+end
 
 lambda = 0.1;
-[all_theta] = oneVsAll(x2, y, num_labels, lambda);
-pred = predictOneVsAll(all_theta, x2);
+[all_theta] = oneVsAll(x, y, num_labels, lambda);
+pred = predictOneVsAll(all_theta, x);
 
 fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);
 
+X=x;
+Y=y;
+
+%..............................................
+if isTest
+load('mgcTest.mat');
+
+lambda = 0.1;
+pred = predictOneVsAll(all_theta, x);
+
+fprintf('Testing Set Accuracy: %f\n', mean(double(pred == y)) * 100);
+end
