@@ -5,7 +5,7 @@
 auDir = pwd;
 ext = '*.au';
 allAudio = getAllFiles(auDir, 'FileFilter', '\.au$');
-
+len=90;
 fprintf('%d files loaded..\n',length(allAudio));
 
 dirinfo = dir('*.au');
@@ -39,5 +39,12 @@ for i=1:length(allAudio)
     end
 
  t(:,end+1) = ff(:,1);
- 
+
 end
+
+y = [(ones(len,1)*1);(ones(len,1)*2);(ones(len,1)*3);...
+    (ones(len,1)*4);(ones(len,1)*5);(ones(len,1)*6); ...
+    (ones(len,1)*7);(ones(len,1)*8);(ones(len,1)*9);(ones(len,1)*len)];
+
+x = t';
+save('data.mat','x','y');
