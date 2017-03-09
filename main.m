@@ -7,7 +7,7 @@
 clear;clc;
 
 %flags
-showPlots = 0
+showPlots = 1
 
 
 
@@ -22,11 +22,11 @@ fprintf('\npress any key to continue..\n');
 pause;
 
 %woring directory
-cd '/media/l1f3/Atharva/installed/matlab/proj/genres/src'
+cd '/media/l1f3/Ath/lab/project/music_proj/src'
 
 %collect the dataset 1000 songs
 
-auDir='/media/l1f3/Atharva/installed/matlab/proj/genres'
+auDir='/media/l1f3/Ath/lab/project/music_proj/genres'
 opt=mmDataCollect('defaultOpt');
 opt.extName='au';
 auSet=mmDataCollect(auDir, opt, 1);
