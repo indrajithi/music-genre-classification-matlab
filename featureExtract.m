@@ -39,6 +39,5 @@ for i=1:length(allAudio)
     end
 
  t(:,end+1) = ff(:,1);
-
  
 end
