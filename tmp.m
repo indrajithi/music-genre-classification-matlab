@@ -40,10 +40,6 @@ figure('Position', [30 100 800 200], 'PaperPositionMode', 'auto', ...
 
 
 
-
-
-
-
   Tw = 25;           % analysis frame duration (ms)
             Ts = 10;           % analysis frame shift (ms)
             alpha = 0.97;      % preemphasis coefficient
